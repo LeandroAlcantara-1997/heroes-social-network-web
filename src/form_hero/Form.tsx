@@ -1,14 +1,18 @@
 
 import { useState } from "react";
 import axios from "axios"
+import './form.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 function Form() {
   const [name, setName] = useState("");
   const [civilName, setCivilName] = useState("");
   const [universe, setUniverse] = useState("DC|MARVEL");
   const [hero, setHero] = useState(true);
+  const [returnResponse, setReturnResponse] = useState("")
 
   const handleSubmit = (data: React.FormEvent<HTMLFormElement>)  => {
     data.preventDefault();
+    // TODO fazer validação de inputs
     axios({
       method: 'POST',
       url: 'http://localhost:8080/v1/heroes',
@@ -22,7 +26,12 @@ function Form() {
         'Content-type': 'application/json'
       }
     }).then((response) => {
-      console.log(response)
+      console.log(response.status)
+      if (response.status !== axios.HttpStatusCode.Ok) {
+          return setReturnResponse("Não foi possivel cadastrar o heroi")
+      } else {
+        setReturnResponse("Cadastro realizado com sucesso")
+      }
     });
   };
 
@@ -45,27 +54,26 @@ function Form() {
 
 
   return (
-    <div>
+    <div className="container text-center" id="form-hero">
       <form onSubmit={handleSubmit}>
-        <p>{name}, {civilName}, {universe}, {hero}</p>
-        <label htmlFor="name">Hero name</label><br />
-        <input id="name" type="text" value={name} onChange={(e)=>inputChangeHandler(setName, e)}></input><br />
-        <label htmlFor="civil name" >Civil name</label><br />
-        <input id="civil name" onChange={(e)=>inputChangeHandler(setCivilName, e)} type="text"></input><br />
+        <label htmlFor="name">Hero name</label>
+        <input id="name"  className="form-control" itemID="exampleFormControlInput1" type="text" value={name} onChange={(e)=>inputChangeHandler(setName, e)}></input>
+        <label htmlFor="civil name" >Civil name</label>
+        <input id="civil name"  className="form-control" itemID="exampleFormControlInput1" onChange={(e)=>inputChangeHandler(setCivilName, e)} type="text"></input>
         <label htmlFor="hero">Hero</label><br />
-        
-        <input id="hero" type="radio" value={"true"} checked={hero} onChange={(e)=>inputChangeHandlerBool(setHero, e)}></input>Sim
-        <input id="hero" type="radio" checked={!hero} value={"false"} onChange={(e)=>inputChangeHandlerBool(setHero, e)}></input>Não
-        <br />
-        <label htmlFor="universe">Universe</label><br />
-        <select defaultValue={universe} onChange={(e)=>inputChangeHandlerSelect(setUniverse, e)} id="">
+        <input  className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={"true"} checked={hero} onChange={(e)=>inputChangeHandlerBool(setHero, e)}></input>Sim
+        <input  className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={!hero} value={"false"} onChange={(e)=>inputChangeHandlerBool(setHero, e)}></input>Não
+        <br /><label htmlFor="universe">Universe</label>
+        <select className="form-select" defaultValue={universe} onChange={(e)=>inputChangeHandlerSelect(setUniverse, e)}>
           <option value="DC">DC</option>
           <option value="MARVEL">Marvel</option>
           <option value="DC|MARVEL">DC e Marvel</option>
         </select>
-        <input type="submit"></input>
+        <input className="btn btn-success" type="submit"></input>
       </form>
+      <p>{returnResponse}</p>
     </div>
+    
   );
 }
 export default Form;
