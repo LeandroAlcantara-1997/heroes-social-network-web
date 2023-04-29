@@ -14,13 +14,12 @@ function GetHero(props: RouteComponentProps<RouteParams>) {
   const { id } = props.match.params;
   const [heroName, setHeroName] = useState("");
   const [civilName, setCivilName] = useState("");
-  const [universe, setUniverse] = useState("DC|MARVEL");
+  const [universe, setUniverse] = useState("");
   const [hero, setHero] = useState(true);
   
 
   function getHero(){
     const url = 'http://localhost:8080/v1/heroes?id=' + id
-    console.log(url)
     axios({
       method: 'GET',
       url: url,
@@ -41,24 +40,6 @@ function GetHero(props: RouteComponentProps<RouteParams>) {
     });
   };
 
-  useEffect(() => {
-    checkIfError();
-  },);
-  
-  function checkIfError() {
-    if (returnResponse !== "") {
-      return <p>{returnResponse}</p>
-    }else {
-      return (
-        <div>
-        <p>{heroName}</p>
-        <p>{civilName}</p>
-        <p>{universe}</p>
-      </div>
-      );
-    }
-  };
-
 
   useEffect(() => {
     getHero();
@@ -66,7 +47,10 @@ function GetHero(props: RouteComponentProps<RouteParams>) {
 
   return (
     <div onLoadCapture={getHero}>
-      <p>{checkIfError}</p>
+      <p>{heroName}</p>
+      <p>{civilName}</p>
+      <p>{universe}</p>
+      <p>{hero}</p>
     </div>
   );
 }
