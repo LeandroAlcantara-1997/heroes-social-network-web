@@ -1,0 +1,48 @@
+#god {
+    background-color: black;
+}
+
+label {
+    display: block;
+    margin: 10px;
+}
+
+input {
+    margin: auto;
+    max-width: 50%;
+}
+
+#form-hero {
+    width: 60%;
+}
+
+/* Bootstrap */
+#inlineRadio1 {
+    margin: 3%;
+}
+
+.btn-success {
+    display: block;
+    margin: 20px;
+}
+
+.form-check-input{
+    margin: 10px;
+}
+
+.container{
+    background-color: white;
+    margin: 15%;
+    border-radius: 15%;
+    padding: 2%;
+    width: 30px;
+}
+
+.form-select {
+    margin: auto;
+    max-width: 50%;
+}
+
+.form-control{
+    margin: auto;
+}
